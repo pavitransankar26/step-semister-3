@@ -1,26 +1,15 @@
 public class AssignmentQuestion1 {
 
-    public static void checkDuplicateSeats(int[] seatNumbers) {
-        boolean found = false;
-
-        for (int i = 0; i < seatNumbers.length; i++) {
-            for (int j = i + 1; j < seatNumbers.length; j++) {
-                if (seatNumbers[i] == seatNumbers[j]) {
-                    System.out.println("Duplicate Seat Number Found: " + seatNumbers[i]);
-                    found = true;
-                }
-            }
-        }
-
-        if (!found) {
-            System.out.println("No Duplicate Seats Found");
+    public static void checkPinLength(String pin) {
+        if (pin.length() != 4) {
+            System.out.println("Invalid PIN - must be exactly 4 digits.");
+        } else {
+            System.out.println("PIN length OK.");
         }
     }
 
     public static void main(String[] args) {
-
-        int[] seatNumbers = {101, 102, 103, 102, 105};
-
-        checkDuplicateSeats(seatNumbers);
+        checkPinLength("482");
+        checkPinLength("4820");
     }
 }
