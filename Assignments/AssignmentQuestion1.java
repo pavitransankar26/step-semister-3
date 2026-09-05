@@ -27,3 +27,4 @@ public class AssignmentQuestion1 {
         checkDuplicateSeats(seatNumbers);
     }
 }
+;
