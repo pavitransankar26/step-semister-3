@@ -1,1 +1,42 @@
+public class AssignmentQuestion3 {
 
+    public static void findLongestStreak(String signalLog) {
+
+        char longestChar = signalLog.charAt(0);
+        int longestCount = 1;
+
+        char currentChar = signalLog.charAt(0);
+        int currentCount = 1;
+
+        for (int i = 1; i < signalLog.length(); i++) {
+
+            if (signalLog.charAt(i) == currentChar) {
+                currentCount++;
+            } else {
+
+                if (currentCount > longestCount) {
+                    longestCount = currentCount;
+                    longestChar = currentChar;
+                }
+
+                currentChar = signalLog.charAt(i);
+                currentCount = 1;
+            }
+        }
+
+        if (currentCount > longestCount) {
+            longestCount = currentCount;
+            longestChar = currentChar;
+        }
+
+        System.out.println("Longest Streak: '" + longestChar
+                + "' repeated " + longestCount + " times");
+    }
+
+    public static void main(String[] args) {
+
+        String signalLog = "RRGGGYRR";
+
+        findLongestStreak(signalLog);
+    }
+}
