@@ -1,35 +1,63 @@
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 public class AssignmentQuestion5 {
 
-    public static void classifyWordLengths(String review) {
+    public static void printFilteredWordFrequency(String feedback) {
 
-        String[] words = review.split(" ");
+        String[] stopWords = {
+            "the", "was", "and", "a", "is", "of", "in"
+        };
 
-        int shortWords = 0;
-        int mediumWords = 0;
-        int longWords = 0;
+        feedback = feedback.toLowerCase();
+        feedback = feedback.replace(".", "");
+        feedback = feedback.replace(",", "");
 
-        for (int i = 0; i < words.length; i++) {
+        String[] words = feedback.split("\\s+");
 
-            int length = words[i].length();
+        HashMap<String, Integer> frequency = new HashMap<>();
 
-            if (length >= 1 && length <= 4) {
-                shortWords++;
-            } else if (length >= 5 && length <= 8) {
-                mediumWords++;
-            } else {
-                longWords++;
+        for (String word : words) {
+
+            boolean isStopWord = false;
+
+            for (String stopWord : stopWords) {
+                if (word.equals(stopWord)) {
+                    isStopWord = true;
+                    break;
+                }
+            }
+
+            if (!isStopWord) {
+
+                if (frequency.containsKey(word)) {
+                    frequency.put(word, frequency.get(word) + 1);
+                } else {
+                    frequency.put(word, 1);
+                }
             }
         }
 
-        System.out.println("Short: " + shortWords);
-        System.out.println("Medium: " + mediumWords);
-        System.out.println("Long: " + longWords);
+        ArrayList<String> wordList = new ArrayList<>(frequency.keySet());
+
+        Collections.sort(wordList, new Comparator<String>() {
+            public int compare(String word1, String word2) {
+                return frequency.get(word2) - frequency.get(word1);
+            }
+        });
+
+        for (String word : wordList) {
+            System.out.println(word + ": " + frequency.get(word));
+        }
     }
 
     public static void main(String[] args) {
 
-        String review = "This movie was absolutely fantastic and thrilling";
+        String feedback =
+                "The mentor was great, the session was great and clear.";
 
-        classifyWordLengths(review);
+        printFilteredWordFrequency(feedback);
     }
 }
