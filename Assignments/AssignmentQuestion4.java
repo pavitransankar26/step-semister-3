@@ -1,51 +1,60 @@
 public class AssignmentQuestion4 {
 
-    public static void analyzeInventory(int[] sectionA, int[] sectionB) {
+    public static String normalizeCode(String raw) {
+        raw = raw.trim();
 
-        int totalA = 0;
-        int totalB = 0;
+        if (raw.length() < 3) {
+            return raw;
+        }
 
-        int highest = sectionA[0];
-        String highestSection = "Section A";
-        int highestIndex = 0;
+        String firstPart = raw.substring(0, 3).toUpperCase();
+        String remainingPart = raw.substring(3);
 
-        for (int i = 0; i < sectionA.length; i++) {
+        return firstPart + remainingPart;
+    }
 
-            totalA += sectionA[i];
-            totalB += sectionB[i];
+    public static String validateAndFormat(String code) {
 
-            if (sectionA[i] > highest) {
-                highest = sectionA[i];
-                highestSection = "Section A";
-                highestIndex = i;
-            }
+        if (code.length() != 13) {
+            return "Invalid: wrong length";
+        }
 
-            if (sectionB[i] > highest) {
-                highest = sectionB[i];
-                highestSection = "Section B";
-                highestIndex = i;
+        for (int i = 0; i < 3; i++) {
+            if (!Character.isLetter(code.charAt(i))) {
+                return "Invalid: publisher code must be 3 letters";
             }
         }
 
-        System.out.println("Section A Total: " + totalA);
-        System.out.println("Section B Total: " + totalB);
-
-        if (totalA == totalB) {
-            System.out.println("Status: Balanced");
-        } else {
-            System.out.println("Status: Not Balanced");
+        for (int i = 3; i < 13; i++) {
+            if (!Character.isDigit(code.charAt(i))) {
+                return "Invalid: body must contain only digits";
+            }
         }
 
-        System.out.println("Highest Quantity: " + highest
-                + " (" + highestSection
-                + ", Item " + (highestIndex + 1) + ")");
+        String publisher = code.substring(0, 3);
+        String year = code.substring(3, 7);
+        String catalog = code.substring(7, 13);
+
+        StringBuilder result = new StringBuilder();
+
+        result.append("[");
+        result.append(publisher);
+        result.append("] YEAR: ");
+        result.append(year);
+        result.append(" | CATALOG: ");
+        result.append(catalog);
+
+        return result.toString();
     }
 
     public static void main(String[] args) {
 
-        int[] sectionA = {20, 15, 30};
-        int[] sectionB = {25, 10, 30};
+        String raw1 = " pen2026004251 ";
+        String normalized1 = normalizeCode(raw1);
+        System.out.println(validateAndFormat(normalized1));
 
-        analyzeInventory(sectionA, sectionB);
+        String raw2 = "12N2026004251";
+        String normalized2 = normalizeCode(raw2);
+        System.out.println(validateAndFormat(normalized2));
     }
 }
