@@ -1,78 +1,46 @@
 class LibraryMember {
+    String memberId;
+    int borrowLimit;
+    int booksBorrowed;
 
-    protected String memberId;
-    protected int borrowLimit;
-    protected int booksBorrowed;
-
-    public LibraryMember(String memberId, int borrowLimit) {
+    LibraryMember(String memberId, int borrowLimit) {
         this.memberId = memberId;
         this.borrowLimit = borrowLimit;
+        this.booksBorrowed = 0;
     }
 
-    public void borrowBook() {
-        if (booksBorrowed < borrowLimit) {
-            booksBorrowed++;
-        }
-    }
-
-    public int getBooksBorrowed() {
-        return booksBorrowed;
-    }
-
-    public void displayInfo() {
-        System.out.print(
-            "General | Books: " +
-            booksBorrowed
-        );
+    String displayInfo() {
+        return "General | Books: " + booksBorrowed;
     }
 }
 
 class StudentMember extends LibraryMember {
+    String course;
 
-    private String course;
-
-    public StudentMember(String memberId,
-                         int borrowLimit,
-                         String course) {
+    StudentMember(String memberId, int borrowLimit, String course) {
         super(memberId, borrowLimit);
         this.course = course;
     }
 
-    public String getCourse() {
-        return course;
-    }
-
     @Override
-    public void displayInfo() {
-        System.out.print(
-            "Student | Course: " +
-            course +
-            " | Books: " +
-            booksBorrowed
-        );
+    String displayInfo() {
+        return "Student | Course: " + course + " | Books: " + booksBorrowed;
     }
 }
 
 public class PracticeQuestion4 {
 
-    static String batchPrint(
-            LibraryMember[] members) {
-
-        StringBuilder result =
-            new StringBuilder();
+    static String batchPrint(LibraryMember[] members) {
+        StringBuilder result = new StringBuilder();
 
         for (LibraryMember member : members) {
-
-            member.displayInfo();
+            result.append(member.displayInfo());
 
             if (member instanceof StudentMember) {
-
-                StudentMember student =
-                    (StudentMember) member;
-
-                result.append(
-                    student.getCourse()
-                );
+                StudentMember student = (StudentMember) member;
+                result.append(" [Course via downcast: ")
+                      .append(student.course)
+                      .append("]");
             }
 
             result.append(" | ");
@@ -82,18 +50,11 @@ public class PracticeQuestion4 {
     }
 
     public static void main(String[] args) {
-
         LibraryMember[] members = {
-
             new LibraryMember("LB5", 3),
-
-            new StudentMember(
-                "STU6", 3, "ECE"
-            )
+            new StudentMember("STU6", 3, "ECE")
         };
 
-        System.out.println(
-            batchPrint(members)
-        );
+        System.out.println(batchPrint(members));
     }
 }
